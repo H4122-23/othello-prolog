@@ -163,7 +163,8 @@ stabilityHeuristic_CB([_|TG], [_|TW], MaxPlayer, MinPlayer, ResMax, ResMin) :-
 
   %% Sum of all previous heuristic with their respective weights %%
 
-dynamic_heuristic_evaluation(Grid, MaxPlayer, MinPlayer, Res) :-
+% dynamic_heuristic_evaluation(Grid, MaxPlayer, MinPlayer, Res) :-
+compoundHeuristic(Grid, MaxPlayer, MinPlayer, Res) :-
   stabilityHeuristic(Grid, MaxPlayer, MinPlayer, Res_stability),
   coinParityHeuristic(Grid, MaxPlayer, MinPlayer, Res_coinParity),
   cornersCapturedHeuristic(Grid, MaxPlayer, MinPlayer, Res_corners),
@@ -185,22 +186,27 @@ dynamic_heuristic_evaluation(Grid, MaxPlayer, MinPlayer, Res) :-
 % caching the Heuristic of a specific board can improve performance
 
 % get existing key
-get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res) :-
+get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, H) :-
   increment_stats_heuristic(Grid),
-  build_key([Grid, MaxPlayer, MinPlayer], Key),
+  build_key([Grid, MaxPlayer, MinPlayer, H], Key),
   get_cache(heuristic, Key, Res),
   !.
 
 % check if the Heuristic has not been process for the other player
-get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res) :-
-  build_key([Grid, MinPlayer, MaxPlayer], Key),
+get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, H) :-
+  build_key([Grid, MinPlayer, MaxPlayer, H], Key),
   get_cache(heuristic, Key, ResTMP),
   Res is ResTMP * -1,!. % invert the result (since the Heuristic evaluation give the opposite)
 
 % compute Heuristic and store it
-get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res) :-
-  build_key([Grid, MaxPlayer, MinPlayer], Key),
-  dynamic_heuristic_evaluation(Grid, MaxPlayer, MinPlayer, Res),
+get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, coinParityHeuristic) :-
+  build_key([Grid, MaxPlayer, MinPlayer, coinParityHeuristic], Key),
+  coinParityHeuristic(Grid, MaxPlayer, MinPlayer, Res),
+  set_cache(heuristic, Key, Res).
+
+get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, compoundHeuristic) :-
+  build_key([Grid, MaxPlayer, MinPlayer, compoundHeuristic], Key),
+  compoundHeuristic(Grid, MaxPlayer, MinPlayer, Res),
   set_cache(heuristic, Key, Res).
 
 % vim:set et sw=2 ts=2 ft=prolog:
