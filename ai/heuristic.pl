@@ -24,11 +24,12 @@
   % between the max player and the min player.
   % The return value is determined as follows :
 
-coinParityHeuristic(Grid, MaxPlayer, MinPlayer, Res) :-
+coinParityHeuristic(Grid, MaxPlayer, MinPlayer, NbTotal, Res) :-
   gridToLine(Grid, AsLine),
   nb_elem(AsLine, Nb_MaxCoins, MaxPlayer),
   nb_elem(AsLine, Nb_MinCoins, MinPlayer),
-  Res is 100 * (Nb_MaxCoins - Nb_MinCoins) / (Nb_MaxCoins + Nb_MinCoins).
+  NbTotal is Nb_MaxCoins + Nb_MinCoins,
+  Res is (100 * (Nb_MaxCoins - Nb_MinCoins) / (Nb_MaxCoins + Nb_MinCoins)).
 
 
       % grilleDeDepart(Grille), coinParityHeuristic(Grille, x, o, 0). % test Match (start of game == even == 0)
@@ -159,21 +160,25 @@ stabilityHeuristic_CB([_|TG], [_|TW], MaxPlayer, MinPlayer, ResMax, ResMin) :-
       % grilleDeDepart(Grid),
       % stabilityHeuristic(Grid, x, o, 0). % test Match
 
-
-
-  %% Sum of all previous heuristic with their respective weights %%
+%% Sum of all previous heuristic with their respective weights %%
 
 % dynamic_heuristic_evaluation(Grid, MaxPlayer, MinPlayer, Res) :-
 compoundHeuristic(Grid, MaxPlayer, MinPlayer, Res) :-
   stabilityHeuristic(Grid, MaxPlayer, MinPlayer, Res_stability),
-  coinParityHeuristic(Grid, MaxPlayer, MinPlayer, Res_coinParity),
+  coinParityHeuristic(Grid, MaxPlayer, MinPlayer, NbTotal,Res_coinParity),
   cornersCapturedHeuristic(Grid, MaxPlayer, MinPlayer, Res_corners),
-
   mobilityHeuristic(Grid, MaxPlayer, MinPlayer, Res_mobility),
-  Res is 100 * Res_corners + 5 * Res_mobility + 25 * Res_coinParity + 25 * Res_stability.
+  ( NbTotal <10 % at the beginning of the game, we reduce the weight of mobility heuristic
+    /* Then */ ->  Res is 60 * Res_corners + 20 * Res_mobility + 60 * Res_coinParity + 60 * Res_stability
 
-% Res is 100 * Res_corners + 5 * Res_coinParity + 25 * Res_stability.
+      /* Else if */ % In the middle game we need to focus on the stability of your placement
+    ; NbTotal >9, NbTotal < 40 
+        /* Then */ -> Res is 30 * Res_corners + 30 * Res_mobility + 30 * Res_coinParity + 100 * Res_stability
 
+    /* Else */ 
+    ; %In the very end of the game we only focus on the coin parity
+       Res is 30 * Res_corners + 30 * Res_mobility + 100 * Res_coinParity + 30 * Res_stability
+  ).
       % grilleDeDepart(Grid),
       % dynamic_heuristic_evaluation(Grid, x, o, 0). % test Match
 
@@ -210,3 +215,5 @@ get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, compoundHeuristic) :-
   set_cache(heuristic, Key, Res).
 
 % vim:set et sw=2 ts=2 ft=prolog:
+
+
