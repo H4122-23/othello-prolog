@@ -68,14 +68,15 @@ color(2) :- assert(nocolor).
 color(_).
 
 option(color) :-
-  repeat,
-  clear(),
-  nl,write(' -- Color --'),nl,nl,
-  write('  1. Yes   '),nl,
-  write('  2. No  '),nl,
-  write('            '),nl,
-  write('enter your choice:'),nl,
-  read(Choice), number(Choice), between(1,2, Choice), color(Choice).
+  %repeat,
+  %clear(),
+  %nl,write(' -- Color --'),nl,nl,
+  %write('  1. Yes   '),nl,
+  %write('  2. No  '),nl,
+  %write('            '),nl,
+  %write('enter your choice:'),nl,
+  %read(Choice), number(Choice), between(1,2, Choice), 
+  color(1).
 
       % option(color).
 
@@ -87,21 +88,24 @@ type(4, alphabeta).
 my_retract(X) :- retract(X),!.
 my_retract(_).
 
-setPlayerType(Player, Num) :-
-  my_retract(playerType(Player, _)),
-  type(Num, Type), assert(playerType(Player, Type)).
+setPlayerType(Player1, Player2, Num1, Num2) :-
+  my_retract(playerType(Player1, _)),
+  my_retract(playerType(Player2, _)),
+  type(Num1, Type1), assert(playerType(Player1, Type1)),
+  type(Num2, Type2), assert(playerType(Player2, Type2)).
 
-option(player, Player) :-
-  repeat,
-  clear(),
-  nl, write(' -- Set the Player '), afficheCellule(Player), raz(), write('to be a --'),nl,nl,
-  write('  1. Human   '),nl,
-  write('  2. Bot (random)  '),nl,
-  write('  3. Bot (minmax)  '),nl,
-  write('  4. Bot (alphabeta)  '),nl,
-  write('            '),nl,
-  write('enter your choice:'),nl,
-  read(Choice), number(Choice), between(1,4, Choice), setPlayerType(Player, Choice).
+option(player, Player1, Player2) :-
+  %repeat,
+  %clear(),
+  %nl, write(' -- Set the Player '), afficheCellule(Player), raz(), write('to be a --'),nl,nl,
+  %write('  1. Human   '),nl,
+  %write('  2. Bot (random)  '),nl,
+  %write('  3. Bot (minmax)  '),nl,
+  %write('  4. Bot (alphabeta)  '),nl,
+  %write('            '),nl,
+  %write('enter your choice:'),nl,
+  %read(Choice), number(Choice), between(1,4, Choice),
+  setPlayerType(Player1, Player2, 3, 4).
 
       % option(player, x).
 
