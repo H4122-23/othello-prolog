@@ -25,17 +25,10 @@ alphabeta([Grid_in, FirstMinMaxCoords], MaxPlayer, MinPlayer, Depth, Result, Alp
 
 
 % no more possibility end of tree or Depth = 0
-alphabeta([Grid_in, [A,I]], MaxPlayer, MinPlayer, _, [Result, [A,I]], _, _, compoundHeuristic) :-
-  compoundHeuristic(Grid_in, MaxPlayer, MinPlayer, Result). /* compute the Heuristic every time */
-  % get_or_compute_heuristic(Grid_in, MaxPlayer, MinPlayer, Result) /* less brute force ;) */
+alphabeta([Grid_in, [A,I]], MaxPlayer, MinPlayer, _, [Result, [A,I]], _, _, H) :-
+  % compoundHeuristic(Grid_in, MaxPlayer, MinPlayer, Result). /* compute the Heuristic every time */
+  get_or_compute_heuristic(Grid_in, MaxPlayer, MinPlayer, Result, H). /* less brute force ;) */
   % ,nl,afficheGrille(Grid_in), write(Result), write('  '),write(A), write(','), write(I),nl.
-
-alphabeta([Grid_in, [A,I]], MaxPlayer, MinPlayer, _, [Result, [A,I]], _, _, coinParityHeuristic) :-
-  coinParityHeuristic(Grid_in, MaxPlayer, MinPlayer, Result). /* compute the Heuristic every time */
-
-alphabeta([Grid_in, [A,I]], MaxPlayer, MinPlayer, _, [Result, [A,I]], _, _, _) :-
-  coinParityHeuristic(Grid_in, MaxPlayer, MinPlayer, Result). /* compute the Heuristic every time */
-
 
 
 getScoreAlphaBeta([First_grid]          , MaxPlayer, MinPlayer, Depth, OldRes, Result, Alpha, Beta, H) :-
