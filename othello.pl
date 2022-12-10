@@ -134,5 +134,5 @@ playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
       % use_module(library(statistics)).
       % profile(play).
 
-:- initialization play.
+:- initialization(play, program).
 % vim:set et sw=2 ts=2 ft=prolog:
