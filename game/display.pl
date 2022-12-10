@@ -146,9 +146,7 @@ displayRunTime(Msg) :-
   write(Msg), write(Minutes), write('min '), write(Seconds), write('s'), nl,!.
 
 
-displayHeuristic(Grid, Player) :-
-  opposite(Player, Player2),
-  dynamic_heuristic_evaluation(Grid, Player, Player2, Heuristic),
+displayHeuristic(Heuristic) :-
   write(' - Heuristic: '), format('~2f', Heuristic),nl.
 
 

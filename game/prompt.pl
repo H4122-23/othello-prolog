@@ -79,10 +79,11 @@ option(color) :-
 
       % option(color).
 
-type(1, human).
-type(2, random).
-type(3, minmax).
-type(4, alphabeta).
+type(1, [human, _]).
+type(2, [random, _]).
+type(3, [minmax, coinParityHeuristic]).
+type(4, [alphabeta, compoundHeuristic]).
+type(5, [alphabeta, coinParityHeuristic]).
 
 my_retract(X) :- retract(X),!.
 my_retract(_).
@@ -97,11 +98,12 @@ option(player, Player) :-
   nl, write(' -- Set the Player '), afficheCellule(Player), raz(), write('to be a --'),nl,nl,
   write('  1. Human   '),nl,
   write('  2. Bot (random)  '),nl,
-  write('  3. Bot (minmax)  '),nl,
-  write('  4. Bot (alphabeta)  '),nl,
+  write('  3. Bot (minmax + coinParity)  '),nl,
+  write('  4. Bot (alphabeta + compound)  '),nl,
+  write('  5. Bot (alphabeta + coinParity)  '),nl,
   write('            '),nl,
   write('enter your choice:'),nl,
-  read(Choice), number(Choice), between(1,4, Choice), setPlayerType(Player, Choice).
+  read(Choice), number(Choice), between(1,5, Choice), setPlayerType(Player, Choice).
 
       % option(player, x).
 
