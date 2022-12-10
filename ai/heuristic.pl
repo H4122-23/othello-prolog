@@ -206,7 +206,7 @@ get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, H) :-
 % compute Heuristic and store it
 get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, coinParityHeuristic) :-
   build_key([Grid, MaxPlayer, MinPlayer, coinParityHeuristic], Key),
-  coinParityHeuristic(Grid, MaxPlayer, MinPlayer, Res),
+  coinParityHeuristic(Grid, MaxPlayer, MinPlayer, _, Res),
   set_cache(heuristic, Key, Res).
 
 get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, compoundHeuristic) :-
