@@ -14,14 +14,35 @@
 :- ensure_loaded('./utils/list.pl').
 :- ensure_loaded('./utils/stats.pl').
 
+play :-
+  current_prolog_flag(argv, Argv),
+  % retract(nocolor),
+  option_color(color, 0),
+  set_cache(time,time, 0),
+  delete_cache(heuristic_stats, _, _),
+  
+  nth0(0, Argv, P1),
+  atom_number(P1, T1),
+  
+  option_player(player, x, T1),
+  nth0(1, Argv, P2),
+  atom_number(P2, T2),
+  option_player(player, o, T2),
+
+  grilleDeDepart(Grid),
+  clear(),
+  statistics(walltime, [_, _]),
+  play(Grid, x, d, 4),!.
 
 play :-
   % retract(nocolor),
-  option(color),
+  option_color(color),
   set_cache(time,time, 0),
   delete_cache(heuristic_stats, _, _),
-  option(player, x),
-  option(player, o),
+  
+  option_player(player, x),
+  option_player(player, o),
+
   grilleDeDepart(Grid),
   clear(),
   statistics(walltime, [_, _]),
@@ -113,5 +134,5 @@ playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
       % use_module(library(statistics)).
       % profile(play).
 
-
+:- initialization play.
 % vim:set et sw=2 ts=2 ft=prolog:

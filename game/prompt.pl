@@ -67,7 +67,7 @@ color(2) :- assert(nocolor).
 
 color(_).
 
-option(color) :-
+option_color(color) :-
   repeat,
   clear(),
   nl,write(' -- Color --'),nl,nl,
@@ -78,6 +78,7 @@ option(color) :-
   read(Choice), number(Choice), between(1,2, Choice), color(Choice).
 
       % option(color).
+option_color(color, Choice):- color(Choice).
 
 type(1, [human, _]).
 type(2, [random, _]).
@@ -92,7 +93,9 @@ setPlayerType(Player, Num) :-
   my_retract(playerType(Player, _)),
   type(Num, Type), assert(playerType(Player, Type)).
 
-option(player, Player) :-
+option_player(player, Player, Type) :- setPlayerType(Player, Type).
+
+option_player(player, Player) :-
   repeat,
   clear(),
   nl, write(' -- Set the Player '), afficheCellule(Player), raz(), write('to be a --'),nl,nl,
