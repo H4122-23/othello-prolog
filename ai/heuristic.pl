@@ -218,6 +218,11 @@ get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, mobilityHeuristic) :-
   build_key([Grid, MaxPlayer, MinPlayer, mobilityHeuristic], Key),
   compoundHeuristic(Grid, MaxPlayer, MinPlayer, Res),
   set_cache(heuristic, Key, Res).
+
+get_or_compute_heuristic(Grid, MaxPlayer, MinPlayer, Res, stabilityHeuristic) :-
+  build_key([Grid, MaxPlayer, MinPlayer, stabilityHeuristic], Key),
+  compoundHeuristic(Grid, MaxPlayer, MinPlayer, Res),
+  set_cache(heuristic, Key, Res).
 % vim:set et sw=2 ts=2 ft=prolog:
 
 
