@@ -108,8 +108,9 @@ playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
   playerType(Player, [random,_]),
   afficheCellule(Player), write('- Random'),nl,
   afficheGrille(Grid, Alpha_last, Index_last),
-  inputPickRandomCoord(Grid, Alpha, Index, Player),
-  sleep(0.5).
+  inputPickRandomCoord(Grid, Alpha, Index, Player)
+  % sleep(0.5)
+.
 
 playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
   playerType(Player, [minmax, H]),
@@ -118,8 +119,9 @@ playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
   afficheGrille(Grid, Alpha_last, Index_last),
   nl, displayRunTime(' - Running since: '),
   minmax(Grid, Player, Depth, [Heuristic_value, [Alpha, Index]], H),
-  nl, displayHeuristic(Heuristic_value),
-  sleep(0.5).
+  nl, displayHeuristic(Heuristic_value)
+  % sleep(0.5)
+.
 
 playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
   playerType(Player, [alphabeta, H]),
@@ -128,8 +130,9 @@ playerInput(Grid, Alpha_last, Index_last, Alpha, Index, Player) :-
   afficheGrille(Grid, Alpha_last, Index_last),
   nl, displayRunTime(' - Running since: '),
   alphabeta(Grid, Player, Depth, [Heuristic_value, [Alpha, Index]], H),
-  nl, displayHeuristic(Heuristic_value),
-  sleep(0.5).
+  nl, displayHeuristic(Heuristic_value)
+  % sleep(0.5)
+.
 
       % use_module(library(statistics)).
       % profile(play).

@@ -85,6 +85,7 @@ type(2, [random, _]).
 type(3, [minmax, coinParityHeuristic]).
 type(4, [alphabeta, compoundHeuristic]).
 type(5, [alphabeta, coinParityHeuristic]).
+type(6, [alphabeta, mobilityHeuristic]).
 
 my_retract(X) :- retract(X),!.
 my_retract(_).

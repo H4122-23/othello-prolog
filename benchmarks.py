@@ -3,8 +3,8 @@ from multiprocessing import Pool
 from os import system
 
 def benchmark(id: int):
-    filename = "benchmarks-{}.txt".format(id)
-    system("swipl othello.pl 1>{} 2 2".format(filename))
+    filename = "logs/benchmarks-{}.txt".format(id)
+    system("swipl othello.pl 1>{} 5 6".format(filename))
 
 def main():
     with Pool() as pool:
