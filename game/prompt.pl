@@ -83,8 +83,13 @@ option_color(color, Choice):- color(Choice).
 type(1, [human, _]).
 type(2, [random, _]).
 type(3, [minmax, coinParityHeuristic]).
-type(4, [alphabeta, compoundHeuristic]).
-type(5, [alphabeta, coinParityHeuristic]).
+type(4, [minmax, mobilityHeuristic]).
+type(5, [minmax, stabilityHeuristic]).
+type(6, [minmax, compoundHeuristic]).
+type(7, [alphabeta, coinParityHeuristic]).
+type(8, [alphabeta, mobilityHeuristic]).
+type(9, [alphabeta, stabilityHeuristic]).
+type(10, [alphabeta, compoundHeuristic]).
 
 my_retract(X) :- retract(X),!.
 my_retract(_).
@@ -99,14 +104,21 @@ option_player(player, Player) :-
   repeat,
   clear(),
   nl, write(' -- Set the Player '), afficheCellule(Player), raz(), write('to be a --'),nl,nl,
-  write('  1. Human   '),nl,
-  write('  2. Bot (random)  '),nl,
-  write('  3. Bot (minmax + coinParity)  '),nl,
-  write('  4. Bot (alphabeta + compound)  '),nl,
-  write('  5. Bot (alphabeta + coinParity)  '),nl,
+
+  write('1. Human'), nl,
+  write('2. Bot(random)'), nl,
+  write('3. Bot(minmax + coinParityHeuristic)'), nl,
+  write('4. Bot(minmax + mobilityHeuristic)'), nl,
+  write('5. Bot(minmax + stabilityHeuristic)'), nl,
+  write('6. Bot(minmax + compoundHeuristic)'), nl,
+  write('7. Bot(alphabeta + coinParityHeuristic)'), nl,
+  write('8. Bot(alphabeta + mobilityHeuristic)'), nl,
+  write('9. Bot(alphabeta + stabilityHeuristic)'), nl,
+  write('10. Bot(alphabeta + compoundHeuristic)'), nl,
+
   write('            '),nl,
   write('enter your choice:'),nl,
-  read(Choice), number(Choice), between(1,5, Choice), setPlayerType(Player, Choice).
+  read(Choice), number(Choice), between(1,10, Choice), setPlayerType(Player, Choice).
 
       % option(player, x).
 
